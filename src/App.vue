@@ -4,20 +4,28 @@
       <li>Cancel</li>
     </ul>
     <ul class="header-button-right">
-      <li>Next</li>
+      <li v-if="step == 1" @click="step++">Next</li>
+      <li v-if="step == 2" @click="publish">Post</li>
     </ul>
     <img src="./assets/logo.png" class="logo" />
   </div>
 
-  <Container :datas="datas"/>
+  <Container :uploadFile="uploadFile" :datas="datas" :step="step" @write="writeTxt = $event"/>
   <button @click="more">더보기</button>
 
   <div class="footer">
     <ul class="footer-button-plus">
-      <input type="file" id="file" class="inputfile" />
+      <input @change="upload" type="file" id="file" class="inputfile" />
       <label for="file" class="input-plus">+</label>
     </ul>
- </div>
+  </div>
+
+  <!-- <div v-if="step == 0">내용0</div>
+  <div v-if="step == 1">내용1</div>
+  <div v-if="step == 2">내용2</div>
+  <button @click="step = 0">버튼0</button>
+  <button @click="step = 1">버튼1</button>
+  <button @click="step = 2">버튼2</button> -->
 </template>
 
 <script>
@@ -31,14 +39,31 @@ export default {
   name: 'App',
   data(){
     return {
+      step : 0,
       datas : Data,
       moreData : 0,
+      uploadFile : '',
+      writeTxt : '',
     }
   },
   components: {
     Container,
   },
   methods: {
+    publish(){
+      var myPost = {
+        name: "Kim Hyun",
+        userImage: "https://placeimg.com/100/100/arch",
+        postImage: this.uploadFile,
+        likes: 36,
+        date: "May 15",
+        liked: false,
+        content: this.writeTxt,
+        filter: "perpetua"
+      };
+      this.datas.unshift(myPost);
+      this.step = 0;
+    },
     more(){
 
       // axios.post('URL', {name : 'kim'}).then().catch((err)=>{
@@ -51,6 +76,14 @@ export default {
         this.datas.push(result.data);
         this.moreData++;
       })
+    },
+    upload(e){
+      let file = e.target.files;
+      console.log(file[0]);
+      let url = URL.createObjectURL(file[0]);
+      console.log(url);
+      this.uploadFile = url;
+      this.step++;
     }
   },
 }
