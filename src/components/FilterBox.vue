@@ -1,5 +1,7 @@
 <template>
-    <div class="filter-item" :style="`background-image:url(${uploadFile})`"></div> 
+    <div :class="filter + ' filter-item'" :style="`background-image:url(${uploadFile})`">
+        <slot></slot>
+    </div> 
 </template>
 
 <script>
@@ -7,7 +9,7 @@ export default {
     name : 'FilterBox',
     props : {
         uploadFile : String,
-        filters : Array,
+        filter : String,
     },
 }
 </script>

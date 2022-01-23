@@ -10,7 +10,9 @@
             <!-- 필터선택페이지 -->
             <div class="upload-image" :style="`background-image:url(${uploadFile})`"></div>
             <div class="filters">
-                <FilterBox :uploadFile="uploadFile" v-for="a in filters" :key="a"/>
+                <FilterBox :filter="filter" :uploadFile="uploadFile" v-for="filter in filters" :key="filter">
+                    {{filter}}
+                </FilterBox>
             </div>
         </div>
         
