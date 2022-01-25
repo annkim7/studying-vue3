@@ -5,8 +5,8 @@ const store = createStore({
   state(){
     return {
         name: 'store',
-        age : '20',
-        likes : '30',
+        age : 20,
+        likes : 30,
         likeClick : false,
         more : {},
     }
@@ -24,8 +24,8 @@ const store = createStore({
         state.likeClick = false;
       }
     },
-    plus(state, data){
-      state.age += data
+    plus(state, a){
+      state.age += a;
     },
     changeName(state){
       state.name = 'park'

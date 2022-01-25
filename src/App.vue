@@ -10,14 +10,22 @@
     <img src="./assets/logo.png" class="logo" />
   </div>
 
+  <p>{{ myname }} {{ age }} {{ likes }}</p>
+
   <h4>안녕 {{ $store.state.age }}</h4>
+  <button @click="plus(10)">클릭</button>
+
+  <!-- <h4>안녕 {{ $store.state.age }}</h4>
   <button @click="$store.commit('plus', 10)">클릭</button>
 
   <p>{{ $store.state.more }}</p>
-  <button @click="$store.dispatch('getData')">더보기 버튼</button>
+  <button @click="$store.dispatch('getData')">더보기 버튼</button> -->
 
   <Container :uploadFile="uploadFile" :datas="datas" :step="step" @write="writeTxt = $event"/>
   <!-- <button @click="more">더보기</button> -->
+
+  <!-- <p>{{ now2 }} {{ counter }}</p>
+  <button @click="counter++">버튼</button> -->
 
   <div class="footer">
     <ul class="footer-button-plus">
@@ -38,6 +46,7 @@
 import Container from './components/Container.vue'
 import Data from './assets/data.js'
 import axios from 'axios'
+import {mapMutations, mapState} from 'vuex'
 
 // axios.post()
 
@@ -45,12 +54,13 @@ export default {
   name: 'App',
   data(){
     return {
-      step : 0,
+      step : 3,
       datas : Data,
       moreData : 0,
       uploadFile : '',
       writeTxt : '',
       chooseFilter : '',
+      counter: 0,
     }
   },
   mounted() {
@@ -61,7 +71,18 @@ export default {
   components: {
     Container,
   },
+  computed: {
+    // now2(){
+    //   return new Date()
+    // },
+    name(){
+      return this.$store.state.name
+    },
+    ...mapState(['name', 'age', 'likes']),
+    ...mapState({ myname : 'name', })
+  },
   methods: {
+    ...mapMutations(['setMore', 'likes', 'plus']),
     publish(){
       var myPost = {
         name: "Kim Hyun",
