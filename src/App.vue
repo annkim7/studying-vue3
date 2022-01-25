@@ -10,8 +10,14 @@
     <img src="./assets/logo.png" class="logo" />
   </div>
 
+  <h4>안녕 {{ $store.state.age }}</h4>
+  <button @click="$store.commit('plus', 10)">클릭</button>
+
+  <p>{{ $store.state.more }}</p>
+  <button @click="$store.dispatch('getData')">더보기 버튼</button>
+
   <Container :uploadFile="uploadFile" :datas="datas" :step="step" @write="writeTxt = $event"/>
-  <button @click="more">더보기</button>
+  <!-- <button @click="more">더보기</button> -->
 
   <div class="footer">
     <ul class="footer-button-plus">
@@ -44,7 +50,13 @@ export default {
       moreData : 0,
       uploadFile : '',
       writeTxt : '',
+      chooseFilter : '',
     }
+  },
+  mounted() {
+    this.emitter.on('filterName', (a)=>{
+        this.chooseFilter = a
+    });
   },
   components: {
     Container,
@@ -59,7 +71,7 @@ export default {
         date: "May 15",
         liked: false,
         content: this.writeTxt,
-        filter: "perpetua"
+        filter: this.chooseFilter,
       };
       this.datas.unshift(myPost);
       this.step = 0;
